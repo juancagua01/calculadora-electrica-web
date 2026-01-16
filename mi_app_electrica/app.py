@@ -32,7 +32,7 @@ def generar_pdf(equipos, total_a, breaker, cable):
             img.save(temp_path)
             
             # x=80 para centrar en A4
-            pdf.image(temp_path, x=100, y=20, w=100)
+            pdf.image(temp_path, x=60, y=20, w=50)
             pdf.ln(45)
         except Exception as e:
             st.warning(f"Aviso: El logo no se incluyó en el PDF por compatibilidad: {e}")
