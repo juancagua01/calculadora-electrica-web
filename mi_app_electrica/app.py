@@ -24,15 +24,15 @@ def generar_pdf(equipos, total_a, breaker, cable):
     pdf.add_page()
     
     # PROCESAMIENTO SEGURO DEL LOGO
-    if os.path.exists("logo_lateral.png"):
+    if os.path.exists("icono_superior.png"):
         try:
             # Convertimos la imagen a un formato compatible (RGB) para evitar errores de PNG
-            img = Image.open("logo_lateral.png").convert("RGB")
-            temp_path = "temp_logo_pdf.png"
+            img = Image.open("icono_superior.png").convert("RGB")
+            temp_path = "icono_superior.png"
             img.save(temp_path)
             
             # x=80 para centrar en A4
-            pdf.image(temp_path, x=80, y=10, w=50)
+            pdf.image(temp_path, x=100, y=20, w=100)
             pdf.ln(45)
         except Exception as e:
             st.warning(f"Aviso: El logo no se incluyó en el PDF por compatibilidad: {e}")
@@ -88,18 +88,18 @@ if 'equipos' not in st.session_state:
 # --- Formulario de Entrada ---
 with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
     with st.form("nuevo_equipo", clear_on_submit=True):
-        nombre = st.text_input("Descripción del equipo", placeholder="Ej: Aire Acondicionado")
+        nombre = st.text_input("Descripción del equipo", placeholder="Ej: Bomba BQ 23")
         col1, col2, col3 = st.columns(3)
         with col1:
-            voltaje = st.number_input("Voltaje (V)", min_value=1.0, value=120.0)
+            voltaje = st.number_input("Voltaje (V)", min_value=1, value=120)
         with col2:
             unidad = st.selectbox("Unidad", ["Watts (W)", "HP"])
         with col3:
-            potencia = st.number_input("Potencia", min_value=1.0)
+            potencia = st.number_input("Potencia", min_value=1)
 
         col_a, col_b = st.columns(2)
         with col_a:
-            es_continua = st.checkbox("Carga Continua (>3 horas)")
+            es_continua = st.checkbox("Carga Continua ")
         with col_b:
             eficiencia = st.slider("Eficiencia del Motor (%)", 50, 100, 85) / 100
 
