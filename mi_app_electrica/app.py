@@ -67,14 +67,14 @@ with st.sidebar:
         st.image("logo_lateral.png", use_container_width=True)
     st.markdown("---")
     st.write("Calculadora Profesional para Electricistas")
-    st.info("Versión 1.1 - PDF Fix")
+    st.info("Versión 1.1")
 
 # --- Título y Imagen Superior Derecha ---
 col_titulo, col_imagen_sup = st.columns([0.7, 0.3])
 
 with col_titulo:
     st.title("⚡ Calculadora de Carga y Protecciones")
-    st.markdown("Cálculo técnico basado en capacidad de conducción.")
+    st.markdown("Cálculo técnico .")
 
 with col_imagen_sup:
     if os.path.exists("icono_superior.png"):
