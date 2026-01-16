@@ -19,7 +19,7 @@ def obtener_calibre(amperios):
 # --- IMAGEN LATERAL (Sidebar) ---
 # Colocamos una imagen en la barra lateral
 with st.sidebar:
-    st.image("logo_lateral.png", caption="Tu Logo aquí", use_column_width=True)
+    st.image("logo_lateral.png", caption="", use_column_width=True)
     st.markdown("---") # Separador visual en la sidebar
     st.write("Calculadora Profesional para Electricistas")
     st.write("Versión 1.0")
@@ -33,7 +33,7 @@ with col_titulo:
     st.markdown("Cálculo basado en corriente nominal ")
 
 with col_imagen_sup:
-    st.image("icono_superior.png", width=100, caption="Icono") # Ajusta el width a tu gusto
+    st.image("icono_superior.png", width=100, caption=" Gracias wilmer") # Ajusta el width a tu gusto
 
 st.markdown("---") # Separador visual principal
 
