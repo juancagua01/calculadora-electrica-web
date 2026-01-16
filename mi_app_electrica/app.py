@@ -18,34 +18,42 @@ def obtener_calibre(amperios):
     elif amperios <= 130: return "2 AWG"
     else: return "Consultar Tablas Especiales (> 2 AWG)"
 
-# --- Función para generar el PDF con Logo Central ---
+# --- Función para generar el PDF con CORRECCIÓN DE IMAGEN ---
 def generar_pdf(equipos, total_a, breaker, cable):
     pdf = FPDF()
     pdf.add_page()
     
-    # Intentar colocar el logo central en el PDF
+    # PROCESAMIENTO SEGURO DEL LOGO
     if os.path.exists("logo_lateral.png"):
-        # x=80 para centrar una imagen de 50mm de ancho en una hoja A4
-        pdf.image("logo_lateral.png", x=80, y=10, w=50)
-        pdf.ln(45) # Espacio después del logo
+        try:
+            # Convertimos la imagen a un formato compatible (RGB) para evitar errores de PNG
+            img = Image.open("logo_lateral.png").convert("RGB")
+            temp_path = "temp_logo_pdf.png"
+            img.save(temp_path)
+            
+            # x=80 para centrar en A4
+            pdf.image(temp_path, x=80, y=10, w=50)
+            pdf.ln(45)
+        except Exception as e:
+            st.warning(f"Aviso: El logo no se incluyó en el PDF por compatibilidad: {e}")
+            pdf.ln(10)
     
     pdf.set_font("Arial", "B", 16)
-    pdf.cell(200, 10, txt="MEMORIA TÉCNICA ELÉCTRICA", ln=True, align="C")
+    # Usamos un codificado seguro para evitar errores con acentos o la 'ñ'
+    pdf.cell(200, 10, txt="MEMORIA TÉCNICA ELÉCTRICA".encode('latin-1', 'ignore').decode('latin-1'), ln=True, align="C")
     pdf.ln(10)
     
-    # Detalle de equipos
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, txt="Detalle de Cargas:", ln=True)
+    pdf.cell(200, 10, txt="Detalle de Cargas:".encode('latin-1', 'ignore').decode('latin-1'), ln=True)
     pdf.set_font("Arial", size=11)
     
     for i, eq in enumerate(equipos):
         txt_eq = f"{i+1}. {eq['nombre']} | Potencia: {eq['unidad_orig']} | Corriente: {eq['amperios']:.2f} A"
-        pdf.cell(200, 8, txt=txt_eq, ln=True)
+        pdf.cell(200, 8, txt=txt_eq.encode('latin-1', 'ignore').decode('latin-1'), ln=True)
     
-    # Resultados Finales
     pdf.ln(10)
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, txt="RESULTADOS DEL CÁLCULO:", ln=True)
+    pdf.cell(200, 10, txt="RESULTADOS DEL CÁLCULO:".encode('latin-1', 'ignore').decode('latin-1'), ln=True)
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 8, txt=f"Corriente Total Requerida: {total_a:.2f} A", ln=True)
     pdf.cell(200, 8, txt=f"Capacidad del Breaker: {breaker} A", ln=True)
@@ -59,7 +67,7 @@ with st.sidebar:
         st.image("logo_lateral.png", use_container_width=True)
     st.markdown("---")
     st.write("Calculadora Profesional para Electricistas")
-    st.info("Versión 1.0 - Exportación PDF")
+    st.info("Versión 1.1 - PDF Fix")
 
 # --- Título y Imagen Superior Derecha ---
 col_titulo, col_imagen_sup = st.columns([0.7, 0.3])
@@ -96,7 +104,6 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
             eficiencia = st.slider("Eficiencia del Motor (%)", 50, 100, 85) / 100
 
         if st.form_submit_button("Agregar a la lista"):
-            # Lógica de cálculo
             watts_reales = (potencia * 746) / eficiencia if unidad == "HP" else potencia
             corriente_base = watts_reales / voltaje
             corriente_final = corriente_base * 1.25 if es_continua or unidad == "HP" else corriente_base
@@ -127,25 +134,23 @@ if st.session_state.equipos:
 
     st.markdown("---")
     
-    # --- Acciones Finales ---
     col_pdf, col_reset = st.columns(2)
     
     with col_pdf:
-        # Generar el PDF usando los datos actuales
         try:
-            pdf_data = generar_pdf(st.session_state.equipos, total_a, breaker_sugerido, cable_sugerido)
+            pdf_bytes = generar_pdf(st.session_state.equipos, total_a, breaker_sugerido, cable_sugerido)
             st.download_button(
                 label="📄 Descargar Reporte en PDF",
-                data=pdf_data,
+                data=pdf_bytes,
                 file_name="Memoria_Tecnica_Electrica.pdf",
                 mime="application/pdf"
             )
         except Exception as e:
-            st.error(f"Error al generar PDF: {e}")
+            st.error(f"Error crítico al generar el archivo: {e}")
 
     with col_reset:
         if st.button("🗑️ Limpiar Lista"):
             st.session_state.equipos = []
             st.rerun()
 else:
-    st.info("La lista está vacía. Ingrese los datos de los equipos para generar el reporte.")
+    st.info("La lista está vacía.")
