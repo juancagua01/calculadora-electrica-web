@@ -40,7 +40,7 @@ def generar_pdf(equipos, total_a, breaker, cable):
     
     pdf.set_font("Arial", "B", 16)
     # Usamos un codificado seguro para evitar errores con acentos o la 'ñ'
-    pdf.cell(200, 10, txt="MEMORIA TÉCNICA ELÉCTRICA".encode('latin-1', 'ignore').decode('latin-1'), ln=True, align="C")
+    pdf.cell(200, 10, txt="SELECCION TÉCNICA ELÉCTRICA".encode('latin-1', 'ignore').decode('latin-1'), ln=True, align="C")
     pdf.ln(10)
     
     pdf.set_font("Arial", "B", 12)
@@ -66,7 +66,7 @@ with st.sidebar:
     if os.path.exists("logo_lateral.png"):
         st.image("logo_lateral.png", use_container_width=True)
     st.markdown("---")
-    st.write("Calculadora Profesional para Electricistas")
+    st.write("Calculadora para Electricistas")
     st.info("Versión 1.1")
 
 # --- Título y Imagen Superior Derecha ---
@@ -99,7 +99,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
 
         col_a, col_b = st.columns(2)
         with col_a:
-            es_continua = st.checkbox("Carga Continua ")
+            es_continua = st.checkbox("Carga Continua")
         with col_b:
             eficiencia = st.slider("Eficiencia del Motor (%)", 50, 100, 85) / 100
 
