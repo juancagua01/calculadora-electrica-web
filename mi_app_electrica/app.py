@@ -33,7 +33,7 @@ with col_titulo:
     st.markdown("Cálculo basado en corriente nominal ")
 
 with col_imagen_sup:
-    st.image("icono_superior.png", width=100, caption=" Gracias wilmer") # Ajusta el width a tu gusto
+    st.image("icono_superior.png", width=200, caption="") # Ajusta el width a tu gusto
 
 st.markdown("---") # Separador visual principal
 
@@ -56,7 +56,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
 
         col_a, col_b = st.columns(2)
         with col_a:
-            es_continua = st.checkbox("Carga Continua (>3h)")
+            es_continua = st.checkbox("Carga Continua ")
         with col_b:
             eficiencia = st.slider("Eficiencia (solo para HP)", 50, 100, 85) / 100
 
