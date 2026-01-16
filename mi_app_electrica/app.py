@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image 
 
 # Configuración de la página
-st.set_page_config(page_title="Calculadora Eléctrica Pro", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="Calculadora Eléctrica Pro", page_icon="MG", layout="centered")
 
 # --- Función para obtener calibre (sin cambios) ---
 def obtener_calibre(amperios):
@@ -33,7 +33,7 @@ with col_titulo:
     st.markdown("Cálculo basado en corriente nominal ")
 
 with col_imagen_sup:
-    st.image("icono_superior.png", width=200, caption="") # Ajusta el width a tu gusto
+    st.image("icono_superior.png", width=250, caption="") # Ajusta el width a tu gusto
 
 st.markdown("---") # Separador visual principal
 
@@ -52,7 +52,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
         with col2:
             unidad = st.selectbox("Unidad", ["Watts (W)", "HP"])
         with col3:
-            potencia = st.number_input("Potencia", min_value=0.01)
+            potencia = st.number_input("Potencia", min_value=1)
 
         col_a, col_b = st.columns(2)
         with col_a:
