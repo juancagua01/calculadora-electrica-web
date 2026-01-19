@@ -64,7 +64,7 @@ def generar_pdf(equipos, total_a, breaker, cable):
 # --- BARRA LATERAL (Sidebar) ---
 with st.sidebar:
     if os.path.exists("logo_lateral.png"):
-    st.image("logo_lateral.png", use_container_width=True)
+     st.image("logo_lateral.png", use_container_width=True)
     st.markdown("---")
     st.write("Calculadora para Electricistas")
     st.info("Versión 1.1")
@@ -95,7 +95,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
         with col2:
             unidad = st.selectbox("Unidad", ["Watts (W)", "HP"])
         with col3:
-            potencia = st.number_input("Potencia", min_value=0.1)
+            potencia = st.number_input("Potencia", min_value=1)
 
         col_a, col_b = st.columns(2)
         with col_a:
