@@ -32,7 +32,7 @@ def generar_pdf(equipos, total_a, breaker, cable):
             img.save(temp_path)
             
             # x=80 para centrar en A4
-            pdf.image(temp_path, x=60, y=20, w=50)
+            pdf.image(temp_path, x=80, y=20, w=50)
             pdf.ln(45)
         except Exception as e:
             st.warning(f"Aviso: El logo no se incluyó en el PDF por compatibilidad: {e}")
@@ -64,17 +64,17 @@ def generar_pdf(equipos, total_a, breaker, cable):
 # --- BARRA LATERAL (Sidebar) ---
 with st.sidebar:
     if os.path.exists("logo_lateral.png"):
-        st.image("logo_lateral.png", use_container_width=True)
+    st.image("logo_lateral.png", use_container_width=True)
     st.markdown("---")
     st.write("Calculadora para Electricistas")
     st.info("Versión 1.1")
 
-# --- Título y Imagen Superior Derecha ---
+# --- Título e Imagen Superior Derecha ---
 col_titulo, col_imagen_sup = st.columns([0.7, 0.3])
 
 with col_titulo:
     st.title("⚡ Calculadora de Carga y Protecciones")
-    st.markdown("Cálculo técnico .")
+    st.markdown("Cálculo técnico.")
 
 with col_imagen_sup:
     if os.path.exists("icono_superior.png"):
@@ -95,7 +95,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
         with col2:
             unidad = st.selectbox("Unidad", ["Watts (W)", "HP"])
         with col3:
-            potencia = st.number_input("Potencia", min_value=1)
+            potencia = st.number_input("Potencia", min_value=0.1)
 
         col_a, col_b = st.columns(2)
         with col_a:
@@ -118,7 +118,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
 if st.session_state.equipos:
     st.subheader("📋 Resumen del Cálculo")
     for i, eq in enumerate(st.session_state.equipos):
-        st.write(f"**{i+1}. {eq['nombre']}** ({eq['unidad_orig']}) → `{eq['amperios']:.2f} A`")
+        st.write(f"1.{i+1}. {eq['nombre']}-- ({eq['unidad_orig']}) = `{eq['amperios']:.2f} A`")
 
     st.markdown("---")
 
@@ -132,7 +132,7 @@ if st.session_state.equipos:
     c2.metric("Breaker", f"{breaker_sugerido} A")
     c3.metric("Cable AWG", cable_sugerido)
 
-    st.markdown("---")
+    st.markdown("-----")
     
     col_pdf, col_reset = st.columns(2)
     
@@ -142,7 +142,7 @@ if st.session_state.equipos:
             st.download_button(
                 label="📄 Descargar Reporte en PDF",
                 data=pdf_bytes,
-                file_name="Memoria_Tecnica_Electrica.pdf",
+                file_name="seleccion_Tecnica_Electrica.pdf",
                 mime="application/pdf"
             )
         except Exception as e:
