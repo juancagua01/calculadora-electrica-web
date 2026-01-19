@@ -95,7 +95,7 @@ with st.expander("➕ Agregar Nuevo Equipo", expanded=True):
         with col2:
             unidad = st.selectbox("Unidad", ["Watts (W)", "HP"])
         with col3:
-            potencia = st.number_input("Potencia", min_value=1)
+            potencia = st.number_input("Potencia", min_value=0.1)
 
         col_a, col_b = st.columns(2)
         with col_a:
